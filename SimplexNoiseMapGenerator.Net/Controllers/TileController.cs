@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
@@ -10,14 +11,20 @@ namespace SimplexNoiseMapGenerator.Net.Controllers
     public class TileController : ControllerBase
     {
         // GET: api/Tile
-        [HttpGet]
+        [HttpGet("{z}/{x}/{y}")]
         public FileStreamResult Get()
         {
             var outputStream = new MemoryStream();
-            using (var image = new Image<Rgba32>(128, 128))
+            using (var image = new Image<Rgba32>(256, 256))
             {
-                image[0, 0] = Color.Red;
-                image[127, 127] = Color.Green;
+                for (var i = 0; i <= 255; i++)
+                {
+                    for (var j = 0; j <= 255; j++)
+                    {
+                        image[i,j] = new Rgba32(Convert.ToByte(j), Convert.ToByte(i), Convert.ToByte((i+j)/2), 255);
+                    }
+                }
+                
                 image.SaveAsPng(outputStream);
             }
 
