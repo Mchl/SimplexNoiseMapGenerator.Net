@@ -14,7 +14,7 @@ namespace SimplexNoiseMapGenerator.Net.Controllers
         [HttpGet("{zoom}/{x}/{y}")]
         public FileStreamResult Get(int zoom, int x, int y)
         {
-            var painter = new SamplePainter();
+            var painter = new NoisePainter();
             return File(painter.Paint(zoom, x, y), "image/png");
         }
     }
