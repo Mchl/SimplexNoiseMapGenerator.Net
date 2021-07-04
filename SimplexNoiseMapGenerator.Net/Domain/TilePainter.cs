@@ -4,21 +4,21 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace SimplexNoiseMapGenerator.Net.Domain
 {
-  class TilePainter
+  internal class TilePainter
   {
+    private readonly IPaintStrategy paintStrategy;
+
     public TilePainter(IPaintStrategy paintStrategy)
     { 
-      PaintStrategy = paintStrategy;
+      this.paintStrategy = paintStrategy;
     }
-
-    private IPaintStrategy PaintStrategy;
 
     public MemoryStream Paint(int zoom, int x, int y)
     {
       var outputStream = new MemoryStream();
       using (var image = new Image<Rgba32>(256, 256))
       {
-        PaintStrategy.Paint(image, zoom, x, y);
+        paintStrategy.Paint(image, zoom, x, y);
         image.SaveAsPng(outputStream);
       }
 

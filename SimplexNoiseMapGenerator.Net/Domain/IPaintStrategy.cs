@@ -5,6 +5,6 @@ namespace SimplexNoiseMapGenerator.Net.Domain
 {
   internal interface IPaintStrategy
   {
-    IImage Paint(Image<Rgba32> image, int zoom, int x, int y);
+    void Paint(Image<Rgba32> image, int zoom, int x, int y);
   }
 }

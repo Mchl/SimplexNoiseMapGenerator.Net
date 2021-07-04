@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -7,7 +6,7 @@ namespace SimplexNoiseMapGenerator.Net.Domain
 {
   public class SamplePainterStrategy : IPaintStrategy
   {
-    public IImage Paint(Image<Rgba32> image, int zoom, int x, int y)
+    public void Paint(Image<Rgba32> image, int zoom, int x, int y)
     {
       for (var i = 0; i <= 255; i++)
       {
@@ -16,8 +15,7 @@ namespace SimplexNoiseMapGenerator.Net.Domain
           image[i,j] = new Rgba32(Convert.ToByte(j), Convert.ToByte(i), Convert.ToByte((i+j)/2), 255);
         }
       }
-                
-      return image;
     }
   }
+  
 }
