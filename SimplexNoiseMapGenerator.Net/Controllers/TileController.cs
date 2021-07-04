@@ -1,8 +1,8 @@
 using System;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
+using SimplexNoiseMapGenerator.Net.Domain;
+
 
 namespace SimplexNoiseMapGenerator.Net.Controllers
 {
@@ -11,26 +11,11 @@ namespace SimplexNoiseMapGenerator.Net.Controllers
     public class TileController : ControllerBase
     {
         // GET: api/Tile
-        [HttpGet("{z}/{x}/{y}")]
-        public FileStreamResult Get()
+        [HttpGet("{zoom}/{x}/{y}")]
+        public FileStreamResult Get(int zoom, int x, int y)
         {
-            var outputStream = new MemoryStream();
-            using (var image = new Image<Rgba32>(256, 256))
-            {
-                for (var i = 0; i <= 255; i++)
-                {
-                    for (var j = 0; j <= 255; j++)
-                    {
-                        image[i,j] = new Rgba32(Convert.ToByte(j), Convert.ToByte(i), Convert.ToByte((i+j)/2), 255);
-                    }
-                }
-                
-                image.SaveAsPng(outputStream);
-            }
-
-            outputStream.Seek(0, SeekOrigin.Begin);
-
-            return File(outputStream, "image/png");
+            var painter = new SamplePainter();
+            return File(painter.Paint(zoom, x, y), "image/png");
         }
     }
 }
