@@ -10,12 +10,19 @@ namespace SimplexNoiseMapGenerator.Net.Controllers
     [ApiController]
     public class TileController : ControllerBase
     {
+        private readonly TilePainter tilePainter;
+
+        public TileController()
+        {
+            IPaintStrategy painterStrategy = new NoisePainterStrategy();
+            tilePainter = new TilePainter(painterStrategy);
+        }
+        
         // GET: api/Tile
         [HttpGet("{zoom}/{x}/{y}")]
         public FileStreamResult Get(int zoom, int x, int y)
         {
-            var painter = new NoisePainter();
-            return File(painter.Paint(zoom, x, y), "image/png");
+            return File(tilePainter.Paint(zoom, x, y), "image/png");
         }
     }
 }
